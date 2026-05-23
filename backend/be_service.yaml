@@ -1,17 +1,16 @@
-#backend service
 apiVersion: v1
 kind: Service
 metadata:
-  name: be-law-ai
+  name: be-app
   labels:
-    app: be-law-ai
+    app: be-app
     env: production
 spec:
   type: ClusterIP
-  selector: 
-    app: be-law-ai
+  selector:
+    app: be-app
     env: production
   ports:
-  - port: 5000
-    targetPort: 5000
-    
+    - port: 3500
+      targetPort: 3500
+      protocol: TCP

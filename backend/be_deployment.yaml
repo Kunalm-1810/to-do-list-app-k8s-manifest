@@ -1,4 +1,4 @@
-aoiVersion: apps/v1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: be-deployment
@@ -6,7 +6,7 @@ metadata:
     app: be-app
     env: production
 spec:
-  replicas: 2 
+  replicas: 2
   strategy:
     type: RollingUpdate
   selector:
@@ -21,9 +21,9 @@ spec:
     spec:
       containers:
         - name: be-container
-          image: kunalmane/be-app:v1.0
+          image: kunalmane/mern-backend:v1
           ports:
-            - containerPort: 5000
+            - containerPort: 3500
           envFrom:
             - secretRef:
                 name: be-secret
@@ -34,7 +34,15 @@ spec:
             requests:
               memory: "256Mi"
               cpu: "250m"
-            livenessProbe:
-              httpGet:
-                path: /
-                port: 5000
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3500
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 3500
+            initialDelaySeconds: 15
+            periodSeconds: 5

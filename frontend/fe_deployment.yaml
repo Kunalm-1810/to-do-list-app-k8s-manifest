@@ -21,17 +21,27 @@ spec:
     spec:
       containers:
         - name: fe-container
-          image: kunalmane/fe:v1
+          image: kunalmane/mern-frontend:v1
           ports:
             - containerPort: 3000
           resources:
             limits:
               memory: "512Mi"
               cpu: "500m"
-          requests:
+            requests:
               memory: "256Mi"
               cpu: "250m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 5
       imagePullSecrets:
         - name: regcred
-      livenessProbe:
-         httpGet:
