@@ -1,0 +1,40 @@
+aoiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-deployment
+  labels:
+    app: be-app
+    env: production
+spec:
+  replicas: 2 
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: be-app
+      env: production
+  template:
+    metadata:
+      labels:
+        app: be-app
+        env: production
+    spec:
+      containers:
+        - name: be-container
+          image: kunalmane/be-app:v1.0
+          ports:
+            - containerPort: 5000
+          envFrom:
+            - secretRef:
+                name: be-secret
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            livenessProbe:
+              httpGet:
+                path: /
+                port: 5000
