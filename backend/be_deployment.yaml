@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: be-container
-          image: kunalmane/mern-backend:v1
+          image: kunalmane/mern-backend:v15
           ports:
             - containerPort: 3500
           envFrom:
